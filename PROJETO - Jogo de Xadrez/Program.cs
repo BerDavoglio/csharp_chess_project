@@ -9,7 +9,7 @@ namespace PROJETO___Jogo_de_Xadrez
         {
             Board board = new Board(8, 8);
 
-
+            Screen.PrintScream(board);
         }
     }
 }
