@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace board
+﻿namespace board
 {
     class Board
     {
@@ -20,6 +16,12 @@ namespace board
         public Piece Piece(int line, int column)
         {
             return Pieces[line, column];
+        }
+
+        public void InsertPiece(Piece p, Position pos)
+        {
+            Pieces[pos.Line, pos.Column] = p;
+            p.Position = pos;
         }
     }
 }
