@@ -1,4 +1,5 @@
 ﻿using System;
+using PROJETO___Jogo_de_Xadrez.Board;
 
 namespace PROJETO___Jogo_de_Xadrez
 {
@@ -6,7 +7,9 @@ namespace PROJETO___Jogo_de_Xadrez
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Position p = new Position(3, 4);
+
+            Console.WriteLine("Position: " + p);
         }
     }
 }
