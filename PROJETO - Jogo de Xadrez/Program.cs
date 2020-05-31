@@ -11,11 +11,19 @@ namespace PROJETO___Jogo_de_Xadrez
         {
             try
             {
-                ChessPosition pos = new ChessPosition('a', 1);
+                Board board = new Board(8, 8);
 
-                Console.WriteLine(pos);
+                board.InsertPiece(new Rook(Color.Black, board), new Position(0, 0));
+                board.InsertPiece(new Rook(Color.Black, board), new Position(1, 3));
+                board.InsertPiece(new Queen(Color.Black, board), new Position(4, 2));
+                board.InsertPiece(new King(Color.Black, board), new Position(7, 7));
 
-                Console.WriteLine(pos.ToPosition());
+                board.InsertPiece(new Rook(Color.White, board), new Position(1, 5));
+                board.InsertPiece(new Rook(Color.White, board), new Position(6, 2));
+                board.InsertPiece(new Queen(Color.White, board), new Position(3, 2));
+                board.InsertPiece(new King(Color.White, board), new Position(0, 4));
+
+                Screen.PrintScreen(board);
             }
             catch (BoardException e)
             {
