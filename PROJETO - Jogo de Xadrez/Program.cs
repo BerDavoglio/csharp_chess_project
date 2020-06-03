@@ -15,20 +15,32 @@ namespace PROJETO___Jogo_de_Xadrez
 
                 while (!game.Terminate)
                 {
-                    Console.Clear();
-                    Screen.PrintScreen(game.board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintScreen(game.board);
+                        Console.WriteLine("\nTurn: " + game.turn);
+                        Console.WriteLine($"Waiting Player: {game.GamerNow}");
 
-                    Console.Write("\nOrigin: ");
-                    Position Origin = Screen.ReadChessPosition().ToPosition();
-                    bool[,] possibleposition = game.board.Piece(Origin).Possible();
+                        Console.Write("\nOrigin: ");
+                        Position Origin = Screen.ReadChessPosition().ToPosition();
+                        game.ValidationOrigin(Origin);
+                        bool[,] possibleposition = game.board.Piece(Origin).Possible();
 
-                    Console.Clear();
-                    Screen.PrintScreen(game.board, possibleposition);
+                        Console.Clear();
+                        Screen.PrintScreen(game.board, possibleposition);
 
-                    Console.Write("\nDestiny: ");
-                    Position Destiny = Screen.ReadChessPosition().ToPosition();
+                        Console.Write("\nDestiny: ");
+                        Position Destiny = Screen.ReadChessPosition().ToPosition();
+                        game.ValidationDestiny(Origin, Destiny);
 
-                    game.Moviment(Origin, Destiny);
+                        game.PlayRealize(Origin, Destiny);
+                    }
+                    catch (BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }             
             }
             catch (BoardException e)
