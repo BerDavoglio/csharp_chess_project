@@ -41,6 +41,11 @@
             Moviments++;
         }
 
+        public void LessMoviments()
+        {
+            Moviments--;
+        }
+
         public abstract bool[,] Possible();
     }
 }

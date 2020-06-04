@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
+using System.Text.RegularExpressions;
 using board;
 using PROJETO___Jogo_de_Xadrez.board;
 
@@ -12,6 +14,7 @@ namespace ChessPieces
         public bool Terminate { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> Captured;
+        public bool Check { get; private set; }
 
         public ChessGame()
         {
@@ -22,9 +25,10 @@ namespace ChessPieces
             Captured = new HashSet<Piece>();
             PutPieces();
             Terminate = false;
+            Check = false;
         }
 
-        public void Moviment(Position A, Position B)
+        public Piece Moviment(Position A, Position B)
         {
             Piece P = board.RemovePiece(A);
             P.MoreMoviments();
@@ -34,11 +38,37 @@ namespace ChessPieces
             {
                 Captured.Add(CapturedPiece);
             }
+            return CapturedPiece;
+        }
+
+        public void Remake(Position A, Position B, Piece piece)
+        {
+            Piece p = board.RemovePiece(B);
+            p.LessMoviments();
+            if (piece != null)
+            {
+                board.InsertPiece(piece, B);
+                Captured.Remove(piece);
+            }
+            board.InsertPiece(piece, A);
         }
 
         public void PlayRealize(Position A, Position B)
         {
-            Moviment(A, B);
+            Piece CapturedPiece = Moviment(A, B);
+            if (IsCheck(GamerNow))
+            {
+                Remake(A, B, CapturedPiece);
+                throw new BoardException("YOU CAN NOT PUT YOURSELF IN CHECK!");
+            }
+            if (IsCheck(Adversary(GamerNow)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             turn++;
             Change();
         }
@@ -104,6 +134,45 @@ namespace ChessPieces
             }
             aux.ExceptWith(CapturedPieces(c));
             return aux;
+        }
+
+        private Color Adversary(Color c)
+        {
+            if (c == Color.Black)
+            {
+                return Color.White;
+            }
+            else
+            {
+                return Color.Black;
+            }
+        }
+
+        private Piece king(Color color)
+        {
+            foreach (Piece x in PiecesInGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsCheck(Color color)
+        {
+            Piece R = king(color);
+
+            foreach (Piece piece in PiecesInGame(Adversary(color)))
+            {
+                bool[,] mat = piece.Possible();
+                if(mat[R.Position.Line, R.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void PutNewPiece(Piece piece, char column, int line)

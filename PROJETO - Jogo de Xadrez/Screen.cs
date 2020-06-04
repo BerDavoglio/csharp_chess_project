@@ -13,6 +13,10 @@ namespace PROJETO___Jogo_de_Xadrez
             PrintCapturedPieces(game);
             Console.WriteLine("\nTurn: " + game.turn);
             Console.WriteLine($"Waiting Player: {game.GamerNow}");
+            if (game.Check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(ChessGame game)
