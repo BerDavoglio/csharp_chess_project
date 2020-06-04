@@ -18,9 +18,7 @@ namespace PROJETO___Jogo_de_Xadrez
                     try
                     {
                         Console.Clear();
-                        Screen.PrintScreen(game.board);
-                        Console.WriteLine("\nTurn: " + game.turn);
-                        Console.WriteLine($"Waiting Player: {game.GamerNow}");
+                        Screen.PrintGame(game);
 
                         Console.Write("\nOrigin: ");
                         Position Origin = Screen.ReadChessPosition().ToPosition();
